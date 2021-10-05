@@ -9,6 +9,9 @@ class MapDemoWindow(arcade.Window):
     def __init__(self):
         super().__init__(width=1080, height=960, title="Demo Map")
         self.shipList = arcade.SpriteList()
+        self.rock = arcade.Sprite(":resources:images/space_shooter/meteorGrey_big1.png")
+        self.rock.center_x = 500
+        self.rock.center_y = 490
         # now add 5 ships
         for count in range(5):
             ship = arcade.Sprite(":resources:images/space_shooter/playerShip1_blue.png")
@@ -18,15 +21,17 @@ class MapDemoWindow(arcade.Window):
             self.shipList.append(ship)
 
     def on_update(self, delta_time: float):
+        filtered_list = list(filter(lambda ship: not arcade.check_for_collision(self.rock, ship),self.shipList))
         tempList = arcade.SpriteList()
-        adjustedList = list(map(flip_ship, self.shipList))
+        adjustedList = list(map(flip_ship, filtered_list))
         tempList.extend(adjustedList)
         self.shipList = tempList
-        tempList.update()
+        self.shipList.update()
 
     def on_draw(self):
         arcade.start_render()
         self.shipList.draw()
+        self.rock.draw()
 
 
 def flip_ship(ship: arcade.Sprite):
