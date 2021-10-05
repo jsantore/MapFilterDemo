@@ -2,6 +2,7 @@ import random
 
 import arcade
 
+# once we understand this - lets add a couple of asteroids and try filter
 
 
 class MapDemoWindow(arcade.Window):
